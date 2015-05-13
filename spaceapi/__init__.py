@@ -29,7 +29,7 @@ def emit():
                 False: 'FALSE',
                 None: 'NA',
             }[open]
-            w.writerow((space, minute, open))
+            w.writerow((space, minute, open_str))
 
 def main():
     download()
