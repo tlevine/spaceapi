@@ -37,12 +37,14 @@ def main():
     p = argparse.ArgumentParser(description = 'Download Space API data.')
     p.add_argument('-d', '--download', help = 'Download new data?',
                    action = 'store_true')
+    p.add_argument('-t', '--threads', default = 30, type = int,
+                   help = 'Number of threads to use for downloading, default is 30')
     p.add_argument('-e', '--csv', help = 'Emit data as CSV?',
                    action = 'store_true')
     args = p.parse_args()
 
     if args.download:
-        download_all()
+        download_all(threads = args.threads)
 
     if args.csv:
         emit()
