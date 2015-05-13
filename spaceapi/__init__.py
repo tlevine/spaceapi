@@ -16,8 +16,12 @@ def main():
 
     # Emit
     for minute in download.directory.keys():
-        for space in download.directory[minute].json().values():
-            open = download.space[minute, space].get('state', {}).get('open')
-            print(open)
+        for space, url in download.directory[minute].json().items():
+            response = download.space[minute, url]
+            if response.ok:
+                open = response.json().get('state', {}).get('open')
+            else:
+                open = None
+            print(space, open)
 
 main()
