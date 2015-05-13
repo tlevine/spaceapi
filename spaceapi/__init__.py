@@ -22,7 +22,11 @@ def emit():
         for space, url in download.directory[minute].json().items():
             response = download.space[minute, url]
             if response.ok:
-                open = response.json().get('state', {}).get('open')
+                try:
+                    data = response.json()
+                except ValueError:
+                    data = {}
+                open = data.get('state', {}).get('open')
             else:
                 open = None
             open_str = {
