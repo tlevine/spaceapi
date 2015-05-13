@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import download
 
-def main():
+def download_all():
     # Download
     timestamp = int(datetime.datetime.now().timestamp())
     minute = timestamp - (timestamp % (5 * 60))
@@ -14,7 +14,9 @@ def main():
         if future.exception() is not None:
             sys.stderr.write('Exception downloading %s:\n%s\n\n' % (space, future.exception()))
 
-    # Emit
+def emit():
+    w = csv.writer(sys.stdout)
+    w.writerow(('space', 'timestamp', 'open'))
     for minute in download.directory.keys():
         for space, url in download.directory[minute].json().items():
             response = download.space[minute, url]
@@ -22,6 +24,13 @@ def main():
                 open = response.json().get('state', {}).get('open')
             else:
                 open = None
-            print(space, open)
+            open_str = {
+                True: 'TRUE',
+                False: 'FALSE',
+                None: 'NA',
+            }[open]
+            w.writerow((space, minute, open))
 
-main()
+def main():
+    download()
+    emit()
