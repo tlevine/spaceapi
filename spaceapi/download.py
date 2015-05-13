@@ -1,10 +1,12 @@
 import requests, vlermv
 
-DIR = '~/.spaceapi
+DIR = '~/.spaceapi'
 
-@vlermv.cache()
+@vlermv.cache(DIR, 'directory')
 def directory(datetime):
     url = 'http://spaceapi.net/directory.json'
     return requests.get(url)
 
-@vlermv.cache(
+@vlermv.cache(DIR, 'space')
+def space(datetime, url):
+    return requests.get(url)
