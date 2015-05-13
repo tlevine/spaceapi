@@ -42,11 +42,11 @@ def main():
     args = p.parse_args()
 
     if args.download:
-        download()
+        download_all()
 
-    if args.emit:
+    if args.csv:
         emit()
 
-    if not args.download and not args.emit:
+    if not args.download and not args.csv:
         sys.stderr.write('Doing nothing; try running with the --help flag.\n')
         sys.exit(1)
