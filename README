@@ -1,1 +1,3 @@
-Archive data from the space API.
+Archive data from the space API. I put it in my crontab like this. ::
+
+    */5 * * * * spaceapi --download --threads 200
