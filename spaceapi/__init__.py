@@ -8,8 +8,11 @@ def main():
     timestamp = int(datetime.datetime.now().timestamp())
     minute = timestamp - (timestamp % (5 * 60))
     with ThreadPoolExecutor(30) as e:
-        for space in download.directory(minute).json().values():
-            e.submit(download.space, (minute, space))
+        spaces = download.directory(minute).json().values()
+        futures = [(space, e.submit(download.space, minute, space)) for space in spaces]
+    for space, future in futures:
+        if future.exception() is not None:
+            sys.stderr.write('Exception downloading %s:\n%s\n\n' % (space, future.exception()))
 
     # Emit
     for minute in download.directory.keys():
