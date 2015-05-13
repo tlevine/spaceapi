@@ -3,7 +3,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import download
 
-
 def main():
     # Download
     timestamp = int(datetime.datetime.now().timestamp())
@@ -13,7 +12,7 @@ def main():
             e.submit(download.space, (minute, space))
 
     # Emit
-    for minute in map(int, download.directory.keys()):
+    for minute in download.directory.keys():
         for space in download.directory[minute].json().values():
             open = download.space[minute, space].get('state', {}).get('open')
             print(open)
