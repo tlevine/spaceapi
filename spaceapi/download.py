@@ -9,4 +9,4 @@ def directory(datetime):
 
 @vlermv.cache(DIR, 'space')
 def space(datetime, url):
-    return requests.get(url)
+    return requests.get(url, verify = False)
