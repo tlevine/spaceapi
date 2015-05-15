@@ -1,6 +1,9 @@
 import requests, vlermv
 
 DIR = '~/.spaceapi'
+HEADERS = {
+    'User-Agent': 'https://pypi.python.org/pypi/spaceapi',
+}
 
 class int_transformer:
     def to_path(timestamp):
@@ -12,8 +15,8 @@ class int_transformer:
 @vlermv.cache(DIR, 'directory', key_transformer = int_transformer)
 def directory(timestamp):
     url = 'http://spaceapi.net/directory.json'
-    return requests.get(url)
+    return requests.get(url, headers = HEADERS)
 
 @vlermv.cache(DIR, 'space')
 def space(datetime, url):
-    return requests.get(url, verify = False)
+    return requests.get(url, verify = False, headers = HEADERS)
