@@ -19,8 +19,18 @@ def emit():
     w = csv.writer(sys.stdout)
     w.writerow(('space', 'timestamp', 'open'))
     for minute in download.directory.keys():
-        for space, url in download.directory[minute].json().items():
-            response = download.space[minute, url]
+        response = download.directory[minute]
+        try:
+            data = response.json()
+        except ValueError:
+            data = {}
+            sys.stderr.write('Bad response for %d\n' % minute)
+        for space, url in data.items():
+            key = minute, url
+            if key not in download.space:
+                sys.stderr.write('%s not saved\n' % str(key))
+                continue
+            response = download.space[key]
             if response.ok:
                 try:
                     data = response.json()
@@ -31,7 +41,9 @@ def emit():
                 open = None
             open_str = {
                 True: 'TRUE',
+                'true': 'TRUE',
                 False: 'FALSE',
+                'false': 'FALSE',
                 None: 'NA',
             }[open]
             w.writerow((space, minute, open_str))
