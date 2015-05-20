@@ -32,8 +32,8 @@ def emit():
                 data = util.eat(response)
                 open = util.open(data)
             else:
-                open = None
-            w.writerow((space, minute, open_str))
+                open = 'NA'
+            w.writerow((space, minute, open))
 
 def main():
     import argparse
