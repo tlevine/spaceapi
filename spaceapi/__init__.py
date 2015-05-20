@@ -8,11 +8,11 @@ def download_all(resolution = 5 * 60, threads = 30):
     timestamp = int(datetime.datetime.now().timestamp())
     minute = timestamp - (timestamp % (resolution))
     with ThreadPoolExecutor(threads) as e:
-        spaces = master.directory(minute).values()
-        futures = [(space, e.submit(download.space, minute, space)) for space in spaces]
-    for space, future in futures:
+        urls = master.directory(minute).values()
+        futures = [(url, e.submit(download.space, minute, url)) for url in urls]
+    for url, future in futures:
         if future.exception() is not None:
-            sys.stderr.write('Exception downloading %s:\n%s\n\n' % (space, future.exception()))
+            sys.stderr.write('Exception downloading %s:\n%s\n\n' % (url, future.exception()))
 
 def emit():
     import csv
