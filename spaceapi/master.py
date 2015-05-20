@@ -2,7 +2,7 @@ import shelve, os
 
 from . import download
 
-def directory(minute):
+def directory(minute = None):
     '''
     Maintain a master directory in case the Space API directory breaks.
     '''
@@ -12,7 +12,8 @@ def directory(minute):
     with shelve.open(fn) as db:
         if not exists:
             rebuild_directory(db)
-        update_directory(db, minute)
+        if minute:
+            update_directory(db, minute)
         data = dict(db)
 
     return data

@@ -8,7 +8,7 @@ def download_all(resolution = 5 * 60, threads = 30):
     timestamp = int(datetime.datetime.now().timestamp())
     minute = timestamp - (timestamp % (resolution))
     with ThreadPoolExecutor(threads) as e:
-        spaces = master.directory(minute)
+        spaces = master.directory(minute).values()
         futures = [(space, e.submit(download.space, minute, space)) for space in spaces]
     for space, future in futures:
         if future.exception() is not None:
@@ -18,19 +18,13 @@ def emit():
     import csv
     w = csv.writer(sys.stdout)
     w.writerow(('space', 'timestamp', 'open'))
+    spaces = master.directory()
+
     for minute in download.directory.keys():
-        response = download.directory[minute]
-
-        if len(response.text) > 0:
-            data = response.json()
-        else:
-            sys.stderr.write('Bad directory response at %d\n' % minute)
-            data = {}
-
-        for space, url in data.items():
+        for space, url in spaces.items():
             key = minute, url
             if key not in download.space:
-                sys.stderr.write('%s was not saved at %s\n' % (url, minute))
+               #sys.stderr.write('%s was not saved at %s\n' % (url, minute))
                 continue
 
             response = download.space[key]
