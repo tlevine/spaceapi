@@ -30,7 +30,11 @@ def emit():
             response = download.space[key]
             if response.ok:
                 if len(response.text) > 0:
-                    data = response.json()
+                    try:
+                        data = response.json()
+                    except ValueError:
+                        sys.stderr.write(response.text)
+                        raise
                 else:
                     data = {}
                 open = data.get('state', {}).get('open')
