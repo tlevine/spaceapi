@@ -1,7 +1,7 @@
 import datetime, sys
 from concurrent.futures import ThreadPoolExecutor
 
-from . import download
+from . import download, master
 
 def download_all(resolution = 5 * 60, threads = 30):
     # Download
@@ -20,21 +20,24 @@ def emit():
     w.writerow(('space', 'timestamp', 'open'))
     for minute in download.directory.keys():
         response = download.directory[minute]
-        try:
+
+        if len(response.text) > 0:
             data = response.json()
-        except ValueError:
+        else:
+            sys.stderr.write('Bad directory response at %d\n' % minute)
             data = {}
-            sys.stderr.write('Bad response for %d\n' % minute)
+
         for space, url in data.items():
             key = minute, url
             if key not in download.space:
-                sys.stderr.write('%s not saved\n' % str(key))
+                sys.stderr.write('%s was not saved at %s\n' % (url, minute))
                 continue
+
             response = download.space[key]
             if response.ok:
-                try:
+                if len(response.text) > 0:
                     data = response.json()
-                except ValueError:
+                else:
                     data = {}
                 open = data.get('state', {}).get('open')
             else:
