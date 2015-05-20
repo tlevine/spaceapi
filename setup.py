@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'spaceapi',
-    version = '0.1.3',
+    version = '0.2.0',
     description = 'Download and archive Space API data',
     author = 'Thomas Levine',
     author_email = '_@thomaslevine.com',
