@@ -8,7 +8,7 @@ def download_all(resolution = 5 * 60, threads = 30):
     timestamp = int(datetime.datetime.now().timestamp())
     minute = timestamp - (timestamp % (resolution))
     with ThreadPoolExecutor(threads) as e:
-        spaces = download.directory(minute).json().values()
+        spaces = master.directory(minute)
         futures = [(space, e.submit(download.space, minute, space)) for space in spaces]
     for space, future in futures:
         if future.exception() is not None:
