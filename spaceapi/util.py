@@ -4,3 +4,6 @@ def eat(response):
     except ValueError:
         data = {}
     return data
+
+def open(data):
+    return False
