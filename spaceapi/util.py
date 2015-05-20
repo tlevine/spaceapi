@@ -5,5 +5,12 @@ def eat(response):
         data = {}
     return data
 
+open_str = {
+    True: 'TRUE',
+    'true': 'TRUE',
+    False: 'FALSE',
+    'false': 'FALSE',
+    None: 'NA',
+}
 def open(data):
-    return False
+    return open_str[data.get('state', {}).get('open')]

@@ -30,16 +30,9 @@ def emit():
             response = download.space[key]
             if response.ok:
                 data = util.eat(response)
-                open = data.get('state', {}).get('open')
+                open = util.open(data)
             else:
                 open = None
-            open_str = {
-                True: 'TRUE',
-                'true': 'TRUE',
-                False: 'FALSE',
-                'false': 'FALSE',
-                None: 'NA',
-            }[open]
             w.writerow((space, minute, open_str))
 
 def main():
