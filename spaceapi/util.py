@@ -13,4 +13,8 @@ open_str = {
     None: 'NA',
 }
 def open(data):
-    return open_str[data.get('state', {}).get('open')]
+    if 'open' in data:
+        raw = data['open']
+    else:
+        raw = data.get('state', {}).get('open')
+    return open_str[raw]
