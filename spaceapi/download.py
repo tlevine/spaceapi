@@ -1,6 +1,8 @@
+import os
+
 import requests, vlermv
 
-DIR = '~/.spaceapi'
+DIR = os.path.expanduser('~/.spaceapi')
 HEADERS = {
     'User-Agent': 'https://pypi.python.org/pypi/spaceapi',
 }
