@@ -58,8 +58,8 @@ BREMEN = {
 }
 
 testcases = [
-    (BREMEN, True),
-    (ENTROPIA, True),
+    (BREMEN, 'TRUE'),
+    (ENTROPIA, 'TRUE'),
 ]
 @pytest.mark.parametrize('data, open', testcases)
 def test_parse(data, open):
