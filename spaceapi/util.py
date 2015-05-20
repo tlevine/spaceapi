@@ -3,3 +3,4 @@ def eat(response):
         data = response.json()
     except ValueError:
         data = {}
+    return data
