@@ -1,6 +1,6 @@
 import shelve, os
 
-from . import download
+from . import download, util
 
 def directory(minute = None):
     '''
@@ -20,11 +20,8 @@ def directory(minute = None):
 
 def update_directory(db, minute):
     response = download.directory(minute)
-    if len(response.text) > 0:
-        db.update(response.json())
+    db.update(util.eat(response))
 
 def rebuild_directory(db):
     for minute, response in download.directory.items():
-        if len(response.text) > 0:
-            spaces = response.json()
-            db.update(spaces)
+        db.update(util.eat(response))

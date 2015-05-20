@@ -1,7 +1,7 @@
 import datetime, sys
 from concurrent.futures import ThreadPoolExecutor
 
-from . import download, master
+from . import download, master, util
 
 def download_all(resolution = 5 * 60, threads = 30):
     # Download
@@ -29,14 +29,7 @@ def emit():
 
             response = download.space[key]
             if response.ok:
-                if len(response.text) > 0:
-                    try:
-                        data = response.json()
-                    except ValueError:
-                        sys.stderr.write(response.text)
-                        raise
-                else:
-                    data = {}
+                data = util.eat(response)
                 open = data.get('state', {}).get('open')
             else:
                 open = None
