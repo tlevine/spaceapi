@@ -16,5 +16,8 @@ def open(data):
     if 'open' in data:
         raw = data['open']
     else:
-        raw = data.get('state', {}).get('open')
+        try:
+            raw = data.get('state', {}).get('open')
+        except AttributeError:
+            raw = None
     return open_str[raw]
