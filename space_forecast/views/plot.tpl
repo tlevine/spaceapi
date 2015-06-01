@@ -1,12 +1,17 @@
 <html>
   <head>
     <style>
-    table { padding: 0; margin: 0; }
+    a.cell {
+      display:inline-block;
+      width: 8px;
+      height: 16px;
+    }
+    a.cell, table, tr, td, th { padding: 0; margin: 0; border: 0; }
     #plot td { text-align: center; }
-    #plot tbody td:nth-child(12n + 7) { border-right: solid 2px black; }
-    #plot td.open { background-color: white; }
-    #plot td.closed { background-color: black; }
-    #plot td.broken { background-color: grey; }
+    #plot tbody td:nth-child(12n + 7) { padding-right: 3px; }
+    #plot td.open a { background-color: black; }
+    #plot td.closed a { background-color: grey; }
+    #plot td.broken a { background-color: white; }
     </style>
   </head>
   <body>
@@ -23,7 +28,7 @@
           <td class="date">{{week['date']}}</td>
           % for observation in week['observations']:
           <td class="{{observation['open']}}" title="{{observation['open']}}">
-            <a href="{{observation['mirror_href']}}">X</a>
+            <a class="cell" href="{{observation['mirror_href']}}"></a>
           </td>
           % end
         </tr>
