@@ -6,7 +6,7 @@ from bottle import Bottle, request, response, \
                    view, TEMPLATE_PATH, \
                    static_file
 
-TEMPLATE_PATH.append(os.path.join(os.path.dirname(__name__), 'views'))
+TEMPLATE_PATH.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'views')))
 
 app = Bottle()
 
@@ -17,7 +17,8 @@ def home():
         'weeks': [
             {
                 'date': '2015-07-01',
-                'observations': ['open' for _ in range(72)],
+                'observations': [{'open': 'open', 'mirror_href': '.'} for _ in range(72)],
             },
-        ]
+        ] * 3,
+        'hours': range(7, 7 + 6),
     }
