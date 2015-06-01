@@ -15,24 +15,20 @@
     </style>
   </head>
   <body>
-    <table id="plot">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th colspan="{{len(hours) * 12}}">Is {{space}} open or closed? (Or is the space API broken?)</th>
-        </tr>
-      </thead>
-      <tbody>
-        % for week in weeks:
-        <tr>
-          <td class="date">{{week['date']}}</td>
-          % for observation in week['observations']:
-          <td class="{{observation['open']}}" title="{{observation['open']}}">
-            <a class="cell" href="{{observation['mirror_href']}}"></a>
-          </td>
-          % end
-        </tr>
+    <h1>Is {{space}} open or closed? (Or is the space API broken?)</h1>
+    <div id="plot">
+      % for week in weeks:
+      <div class="week">
+        <span>{{week['date']}}</span>
+        % for observation in week['observations']:
+        <a class="cell {{observation['open']}}"
+           title="{{observation['open']}}"
+           href="{{observation['mirror_href']}}"></a>
         % end
+      </div>
+      % end
+
+
       </tbody>
       <tfoot>
         <tr>
