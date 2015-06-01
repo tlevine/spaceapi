@@ -1,7 +1,7 @@
 <html>
   <head>
     <style>
-    table, tr, td { padding: 0; margin: 0; }
+    table { padding: 0; margin: 0; }
     #plot td { text-align: center; }
     #plot tbody td:nth-child(12n + 7) { border-right: solid 2px black; }
     #plot td.open { background-color: white; }
@@ -14,7 +14,7 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th colspan="72"></th>
+          <th colspan="{{len(hours) * 12}}">Is {{space}} open or closed? (Or is the API broken?)</th>
         </tr>
       </thead>
       <tbody>
@@ -22,16 +22,18 @@
         <tr>
           <td class="date">{{week['date']}}</td>
           % for observation in week['observations']:
-          <td class="{{observation['open']}}"><a href="{{observation['mirror_href']}}">X</a></td>
+          <td class="{{observation['open']}}" title="{{observation['open']}}">
+            <a href="{{observation['mirror_href']}}">X</a>
+          </td>
           % end
         </tr>
         % end
       </tbody>
       <tfoot>
         <tr>
-          <td class="time">Time</td>
+          <th class="time">Time</th>
           % for hour in hours:
-          <td colspan="12">{{hour}}</td>
+          <th colspan="12">{{hour}}</th>
           % end
         </tr>
       </tfoot>

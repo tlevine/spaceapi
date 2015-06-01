@@ -14,6 +14,7 @@ app = Bottle()
 @view('plot')
 def home():
     return {
+        'space': 'Hackistan',
         'weeks': [
             {
                 'date': '2015-07-01',
