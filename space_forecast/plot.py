@@ -6,6 +6,8 @@ from bottle import Bottle, request, response, \
                    view, TEMPLATE_PATH, \
                    static_file
 
+from .util import earlier_later
+
 TEMPLATE_PATH.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'views')))
 
 app = Bottle()
@@ -14,10 +16,18 @@ DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 HOURS = list(range(24))
 SPACES = {'Hackistan'}
 
+@app.route('/')
+@view('home')
+def home():
+    return {'spaces': sorted(SPACES)}
+
 @app.route('/<space>')
 @view('plot')
 def plot_space(space):
-    redirect('/' + space + datetime.datetime.now().strftime('/%A/%H'))
+    n = datetime.datetime.now()
+    day = n.strftime('%A')
+    hour = n.hour
+    return plot_hour(space, day, hour)
 
 @app.route('/<space>/<day>')
 @view('plot')
@@ -49,27 +59,3 @@ def plot_hour(space, day, hour):
     }
     data.update(earlier_later(day, hour, radius))
     return data
-
-def earlier_later(day, hour, radius):
-    ed, eh = clock_time(day, hour - radius)
-    ld, lh = clock_time(day, hour + radius)
-    return {
-        'earlier_day': ed,
-        'earlier_hour': eh,
-        'later_day': ld,
-        'later_hour': lh,
-    }
-
-def clock_time(day, hour):
-    if 0 <= hour <= 23:
-        return day, hour
-    
-    i = DAYS.index(day)
-    if i == 0:
-        i = i + len(DAYS)
-
-    if hour < 0:
-        return DAYS[i - 1], hour + 24
-    
-    if hour > 23:
-        return DAYS[i + 1], hour - 24
