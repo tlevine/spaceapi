@@ -7,15 +7,8 @@ HEADERS = {
     'User-Agent': 'https://pypi.python.org/pypi/spaceapi',
 }
 
-class int_transformer:
-    def to_path(timestamp):
-        return ('%d' % timestamp,)
-    def from_path(path):
-        assert len(path) == 1, path
-        return int(path[0])
-
-@vlermv.cache(DIR, 'directory', key_transformer = int_transformer, mutable = False)
-def directory(timestamp):
+@vlermv.cache(DIR, 'directory', mutable = False)
+def directory(datetime):
     url = 'http://spaceapi.net/directory.json'
     return requests.get(url, headers = HEADERS)
 

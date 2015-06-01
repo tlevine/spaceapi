@@ -5,8 +5,8 @@ from . import download, master, util
 
 def download_all(resolution = 5 * 60, threads = 30):
     # Download
-    timestamp = int(datetime.datetime.now().timestamp())
-    minute = timestamp - (timestamp % (resolution))
+    timestamp = int(datetime.datetime.now())
+    minute = datetime.datetime.fromtimestamp(timestamp - (timestamp % (resolution)))
     with ThreadPoolExecutor(threads) as e:
         urls = master.directory(minute).values()
         futures = [(url, e.submit(download.space, minute, url)) for url in urls]
