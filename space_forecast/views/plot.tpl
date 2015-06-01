@@ -14,7 +14,7 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th colspan="{{len(hours) * 12}}">Is {{space}} open or closed? (Or is the API broken?)</th>
+          <th colspan="{{len(hours) * 12}}">Is {{space}} open or closed? (Or is the space API broken?)</th>
         </tr>
       </thead>
       <tbody>
@@ -31,10 +31,11 @@
       </tbody>
       <tfoot>
         <tr>
-          <th class="time">Time</th>
+          <th><a href="/{{space}}/{{earlier_day}}/{{earlier_hour}}">Earlier</a></th>
           % for hour in hours:
           <th colspan="12">{{hour}}</th>
           % end
+          <th><a href="/{{space}}/{{later_day}}/{{later_hour}}">Later</a></th>
         </tr>
       </tfoot>
     </table>
