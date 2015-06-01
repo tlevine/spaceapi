@@ -1,1 +1,1 @@
-from .plot import app
+from .main import app

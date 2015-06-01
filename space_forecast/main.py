@@ -59,3 +59,14 @@ def plot_hour(space, day, hour):
     }
     data.update(earlier_later(day, hour, radius))
     return data
+
+
+@app.route('/raw/<space>/<year:int>/<month:int>/<day:int>/<hour:int>/<minute:int>')
+@view('raw')
+def raw(space, year, month, day, hour, minute):
+    d = datetime.datetime(year, month, day, hour, minute)
+    return {
+        'space': space,
+        'date': d,
+        'body': 'blah blah',
+    }
