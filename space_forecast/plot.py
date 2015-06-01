@@ -13,7 +13,13 @@ app = Bottle()
 @app.route('/')
 @view('plot')
 def home():
-    return {}
+    return {
+        'weeks': [
+            {
+                'date': '2015-07-01',
+                'observations': ['open' for _ in range(72)],
+            },
+        ]
+    }
 
-def run():
-    app.run(server = 'cherrypy', reloader = True, port = 8081, host = '127.0.0.1')
+app.run(server = 'cherrypy', reloader = True, port = 8081, host = '127.0.0.1')
