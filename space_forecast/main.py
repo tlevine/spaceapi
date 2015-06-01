@@ -67,6 +67,6 @@ def raw(space, year, month, day, hour, minute):
     d = datetime.datetime(year, month, day, hour, minute)
     return {
         'space': space,
-        'date': d,
+        'date': d.strftime('%Y-%m-%d %H:%M UTC'),
         'body': 'blah blah',
     }
