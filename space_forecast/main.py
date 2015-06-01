@@ -6,13 +6,12 @@ from bottle import Bottle, request, response, \
                    view, TEMPLATE_PATH, \
                    static_file
 
-from .util import earlier_later
+from .util import earlier_later, DAYS
 
 TEMPLATE_PATH.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'views')))
 
 app = Bottle()
 
-DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 HOURS = list(range(24))
 SPACES = {'Hackistan'}
 
@@ -47,11 +46,15 @@ def plot_hour(space, day, hour):
     radius = 2
     hours = list('%02d:00' % (h % 24) for h in range(hour - radius, hour + radius + 1))
 
+    observations = []
+    for dt in observation_datetimes(radius, date, hour):
+        observations.append(
+
     data = {
         'space': space,
         'weeks': [
             {
-                'date': '2015-07-01',
+                'date': date.isoformat(),
                 'observations': [{'open': 'open', 'mirror_href': '.'} for _ in range(60)],
             },
         ] * 3,
@@ -60,6 +63,15 @@ def plot_hour(space, day, hour):
     data.update(earlier_later(day, hour, radius))
     return data
 
+def observation_datetimes(radius, date, hour):
+    d = datetime.datetime(date.year, date.month, date.day, hour)
+    start = d - datetime.timedelta(0, radius, 30)
+    end = d - datetime.timedelta(0, radius, 30)
+
+    now = start + datetime.timedelta() # copy
+    while now < end:
+        yield now
+        now += datetime.timedelta(0, 0, 5)
 
 @app.route('/raw/<space>/<year:int>/<month:int>/<day:int>/<hour:int>/<minute:int>')
 @view('raw')
